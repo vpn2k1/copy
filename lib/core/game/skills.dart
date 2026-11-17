@@ -1,0 +1,140 @@
+import 'skill_config.dart';
+
+/// 12 kỹ năng theo 04_SKILL_CATALOG (giá trị cân bằng khởi điểm).
+///
+/// Quy đổi các cột hồi phục âm của catalog sang điểm nghi ngờ:
+/// -0.18 → giảm 18 điểm, -0.2 → 20 điểm, -0.30 → 30 điểm, trải đều trong
+/// thời gian thi triển.
+const allSkills = <SkillConfig>[
+  SkillConfig(
+    id: 'peek',
+    effectKind: SkillEffectKind.holdProgress,
+    trigger: SkillTrigger.hold,
+    value: 2.2,
+    riskMultiplier: 0.65,
+    cooldownSeconds: 2,
+    unlockLevel: 1,
+  ),
+  SkillConfig(
+    id: 'pretend',
+    effectKind: SkillEffectKind.recoverSuspicion,
+    trigger: SkillTrigger.tap,
+    value: 18,
+    riskMultiplier: 0,
+    cooldownSeconds: 5,
+    unlockLevel: 1,
+    castSeconds: 1.5,
+  ),
+  SkillConfig(
+    id: 'cheat_sheet',
+    effectKind: SkillEffectKind.holdProgress,
+    trigger: SkillTrigger.hold,
+    value: 3.8,
+    riskMultiplier: 1.15,
+    cooldownSeconds: 7,
+    unlockLevel: 2,
+  ),
+  SkillConfig(
+    id: 'pencil_case',
+    effectKind: SkillEffectKind.instantProgress,
+    trigger: SkillTrigger.tap,
+    value: 8,
+    riskMultiplier: 1.3,
+    cooldownSeconds: 12,
+    unlockLevel: 2,
+    castSeconds: 1.2,
+    condition: SkillCondition.chance,
+    successChance: 0.75,
+  ),
+  SkillConfig(
+    id: 'pass_note',
+    effectKind: SkillEffectKind.instantProgress,
+    trigger: SkillTrigger.timedRelease,
+    value: 12,
+    riskMultiplier: 1.6,
+    cooldownSeconds: 15,
+    unlockLevel: 3,
+    castSeconds: 1.8,
+    timingWindow: (0.9, 1.4),
+  ),
+  SkillConfig(
+    id: 'ask_friend',
+    effectKind: SkillEffectKind.instantProgress,
+    trigger: SkillTrigger.tap,
+    value: 7,
+    riskMultiplier: 1.0,
+    cooldownSeconds: 10,
+    unlockLevel: 3,
+    castSeconds: 1.0,
+    condition: SkillCondition.teacherNotWatching,
+  ),
+  SkillConfig(
+    id: 'eraser',
+    effectKind: SkillEffectKind.randomProgress,
+    trigger: SkillTrigger.tap,
+    value: 10,
+    riskMultiplier: 0.9,
+    cooldownSeconds: 13,
+    unlockLevel: 4,
+    castSeconds: 1.0,
+    randomOutcomes: [0, 5, 10],
+  ),
+  SkillConfig(
+    id: 'hide_note',
+    effectKind: SkillEffectKind.recoverSuspicion,
+    trigger: SkillTrigger.tap,
+    value: 20,
+    riskMultiplier: 0,
+    cooldownSeconds: 6,
+    unlockLevel: 4,
+    castSeconds: 1.0,
+  ),
+  SkillConfig(
+    id: 'ruler',
+    effectKind: SkillEffectKind.holdProgress,
+    trigger: SkillTrigger.hold,
+    value: 3.0,
+    riskMultiplier: 1.0,
+    cooldownSeconds: 8,
+    unlockLevel: 5,
+  ),
+  SkillConfig(
+    id: 'calculator',
+    effectKind: SkillEffectKind.minigame,
+    trigger: SkillTrigger.choice,
+    value: 11,
+    riskMultiplier: 1.2,
+    cooldownSeconds: 14,
+    unlockLevel: 5,
+    castSeconds: 4,
+  ),
+  SkillConfig(
+    id: 'signal',
+    effectKind: SkillEffectKind.minigame,
+    trigger: SkillTrigger.choice,
+    value: 10,
+    riskMultiplier: 1.35,
+    cooldownSeconds: 11,
+    unlockLevel: 5,
+    castSeconds: 2.5,
+  ),
+  SkillConfig(
+    id: 'oscar',
+    effectKind: SkillEffectKind.recoverSuspicion,
+    trigger: SkillTrigger.tap,
+    value: 30,
+    riskMultiplier: 0,
+    cooldownSeconds: 16,
+    unlockLevel: 5,
+    castSeconds: 1.2,
+    condition: SkillCondition.teacherWatching,
+  ),
+];
+
+/// Tra kỹ năng theo id. Ném lỗi nếu id không tồn tại (lỗi dữ liệu).
+SkillConfig skillById(String id) {
+  return allSkills.firstWhere(
+    (skill) => skill.id == id,
+    orElse: () => throw ArgumentError.value(id, 'id', 'kỹ năng không tồn tại'),
+  );
+}
